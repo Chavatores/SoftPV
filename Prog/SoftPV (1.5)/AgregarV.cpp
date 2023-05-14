@@ -1,0 +1,195 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "AgregarV.h"
+#include "AcercadeSoftPV.h"
+#include "AgregarC.h"
+#include "Cliente.h"
+#include "DataModule.h"
+#include "Menu.h"
+#include "Producto.h"
+#include "Proveedor.h"
+#include "Compra.h"
+#include "Venta.h"
+#include "Bcliente.h"
+#include "Bproducto.h"
+#include "Bproveedor.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm9 *Form9;
+//---------------------------------------------------------------------------
+__fastcall TForm9::TForm9(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm9::BitBtn1Click(TObject *Sender)
+{
+DataModule1->TVenta->Append();
+ComboBox1->Enabled=true;
+BitBtn4->Enabled=true;
+BitBtn5->Enabled=false;
+BitBtn1->Enabled=false;
+DBEdit4->Text=Form6->Label8->Caption;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::DBLookupComboBox1Click(TObject *Sender)
+{
+if(DBLookupComboBox1->Text!="")
+ {
+ DBEdit1->Enabled=true;
+ DBEdit1->SetFocus();
+ BitBtn13->Enabled=true;
+ }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::BitBtn13Click(TObject *Sender)
+{
+if ((DataModule1->TVenta->Fields->Fields[3]->AsInteger) > (DataModule1->TProducto->Fields->Fields[7]->AsInteger))
+ {
+  ShowMessage("Es mayor la cantidad que la existencia");
+  DBEdit1->SetFocus();
+ }
+else
+ {
+ if((DBEdit1->Text!="")&&(ComboBox1->Text!="")&&(DBLookupComboBox1->Text!="")&&(DBEdit5->Text!="")&&(DBEdit3->Text!="")&&(DBEdit2->Text!=""))
+  {
+   DataModule1->TVenta->Post();
+   DataModule1->TProducto->Edit();
+   DataModule1->TProducto->Fields->Fields[7]->AsInteger=(DataModule1->TProducto->Fields->Fields[7]->AsInteger)-StrToInt(DBEdit1->Text);
+   DataModule1->TProducto->Post();
+   DataModule1->TProducto->Refresh();
+   ComboBox1->Enabled=false;
+   BitBtn1->Enabled=true;
+    BitBtn5->Enabled=false;
+   BitBtn5->Enabled=true;
+   BitBtn13->Enabled=false;
+   DBLookupComboBox1->Enabled=false;
+   DBEdit1->Enabled=false;
+   Form6->ListBox1->Items->Add(DBEdit1->Text);
+   Form6->ListBox3->Items->Add(DBEdit2->Text);
+   Form6->ListBox2->Items->Add(DBLookupComboBox1->Text);
+   can=StrToInt(DBEdit1->Text);
+   pre=StrToFloat(DBEdit2->Text);
+   tot=can*pre;
+   acum=acum+tot;
+   Form6->Edit1->Text=acum;
+  }
+  else
+  {
+   ShowMessage("Faltan datos");
+   DBEdit1->SetFocus();
+  }
+ }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::BitBtn4Click(TObject *Sender)
+{
+Form9->Close();
+Form6->Edit2->Enabled=false;
+Form6->BitBtn12->Enabled=false;
+acum=0;
+Form6->DateTimePicker1->Enabled=false;
+Form6->DBComboBox1->Enabled=true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::FormCreate(TObject *Sender)
+{
+ComboBox1->Enabled=false;
+DBLookupComboBox1->Enabled=false;
+DBEdit1->Enabled=false;
+BitBtn4->Enabled=false;
+BitBtn5->Enabled=false;
+BitBtn13->Enabled=false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::FormShow(TObject *Sender)
+{
+ComboBox1->Enabled=false;
+DBLookupComboBox1->Enabled=false;
+DBEdit1->Enabled=false;
+BitBtn4->Enabled=false;
+BitBtn5->Enabled=false;
+BitBtn13->Enabled=false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::DBComboBox1Click(TObject *Sender)
+{
+BitBtn13->Enabled=true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::DBComboBox1Change(TObject *Sender)
+{
+BitBtn13->Enabled=true;        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::BitBtn5Click(TObject *Sender)
+{
+Form9->Close();
+Form6->BitBtn6->Enabled=false;
+Form6->BitBtn12->Enabled=false;
+Form6->BitBtn1->Enabled=false;
+Form6->DBComboBox1->Enabled=true;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::FormClose(TObject *Sender, TCloseAction &Action)
+{
+DataModule1->TProducto->Filter="";
+DataModule1->TProducto->Filtered=false;
+Form6->BitBtn4->Enabled=false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::ComboBox1Click(TObject *Sender)
+{
+String VARIABLE;
+DataModule1->TProducto->Filtered=false;
+DataModule1->TProducto->Filter="";
+VARIABLE=ComboBox1->Text;
+DataModule1->TProducto->Filter="clas_producto='"+VARIABLE+"'";
+DataModule1->TProducto->Filtered=true;
+DBLookupComboBox1->Text!=" ";       
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm9::ComboBox1Change(TObject *Sender)
+{
+if(DataModule1->TProducto->Fields->Fields[2]->AsString!="")
+ {
+  DBLookupComboBox1->Enabled=true;
+ }
+else
+ {
+  ShowMessage("No hay producto");
+  DBLookupComboBox1->Enabled=false;
+  }
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm9::BitBtn2Click(TObject *Sender)
+{
+DataModule1->TVenta->Cancel();
+DataModule1->TVenta->Refresh();
+BitBtn1->Enabled=true;
+DBEdit1->Enabled=false;
+BitBtn5->Enabled=false;
+DBLookupComboBox1->Enabled=false;
+BitBtn13->Enabled=false;
+ComboBox1->Enabled=false;
+}
+//---------------------------------------------------------------------------
+

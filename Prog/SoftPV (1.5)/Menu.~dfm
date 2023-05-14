@@ -1,0 +1,91 @@
+object Form1: TForm1
+  Left = 244
+  Top = 318
+  BorderStyle = bsToolWindow
+  Caption = 'SoftPV - Men'#250' Principal'
+  ClientHeight = 434
+  ClientWidth = 688
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Menu = MainMenu1
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 415
+    Width = 688
+    Height = 19
+    Panels = <
+      item
+        Text = 'Men'#250' Principal'
+        Width = 50
+      end>
+    SimplePanel = False
+  end
+  object Panel1: TPanel
+    Left = 16
+    Top = 16
+    Width = 657
+    Height = 385
+    Color = clMoneyGreen
+    TabOrder = 1
+    object MonthCalendar1: TMonthCalendar
+      Left = 230
+      Top = 115
+      Width = 197
+      Height = 154
+      CalColors.TitleBackColor = clTeal
+      Date = 38077.6382116204
+      TabOrder = 0
+    end
+  end
+  object MainMenu1: TMainMenu
+    Left = 8
+    Top = 8
+    object Nuevo1: TMenuItem
+      Caption = '&Nuevo'
+      object Cliente1: TMenuItem
+        Caption = 'Cliente'
+        OnClick = Cliente1Click
+      end
+      object Producto1: TMenuItem
+        Caption = 'Producto'
+        OnClick = Producto1Click
+      end
+      object Proveedor1: TMenuItem
+        Caption = 'Proveedor'
+        OnClick = Proveedor1Click
+      end
+    end
+    object Transaccin1: TMenuItem
+      Caption = '&Transacci'#243'n'
+      object Compra1: TMenuItem
+        Caption = 'Compra'
+        OnClick = Compra1Click
+      end
+      object Venta1: TMenuItem
+        Caption = 'Venta'
+        OnClick = Venta1Click
+      end
+    end
+    object Informacin1: TMenuItem
+      Caption = '&Informaci'#243'n'
+      object AcercadeSoftPV1: TMenuItem
+        Caption = '&Acerca de SoftPV'
+        OnClick = AcercadeSoftPV1Click
+      end
+    end
+    object Salir1: TMenuItem
+      Caption = '&Salir'
+      object Cerrar1: TMenuItem
+        Caption = 'Cerrar'
+        OnClick = Cerrar1Click
+      end
+    end
+  end
+end
